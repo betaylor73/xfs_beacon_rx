@@ -1,0 +1,95 @@
+# === Base CCS / Eclipse ===
+*.launch
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+.settings/
+.metadata/
+RemoteSystemsTempFiles/
+
+# === CCS Build Artifacts ===
+/Debug/
+/Release/
+/bin/
+/obj/
+/out/
+/configPkg/   # XDC/SYSBIOS configuration package
+
+*.d
+*.o
+*.obj
+*.map
+*.out
+*.elf
+*.hex
+*.bin
+*.asm
+*.lst
+*.dep
+*.pp
+*.opt
+
+# === CCS Project Files (ignore if you don't want them under VCS) ===
+# Keep these if you want portable CCS projects
+# .project
+# .cproject
+# .ccsproject
+
+# === C2000-Specific Build Outputs ===
+# Generated linker and command files
+F2837xD_*.cmd       # auto-generated cmd linker scripts
+F2800x_*.cmd
+*.mk                # generated makefiles
+*_cfg.cmd           # SYS/BIOS/XDC generated linker script
+*_cfg.c             # SYS/BIOS/XDC generated C source
+*_cfg.h             # SYS/BIOS/XDC generated header
+*_xdc.h             # XDC generated header
+package.mak
+package.bld
+package.xdc.inc
+package/cfg/*       # SYS/BIOS config outputs
+package/*.xml
+
+# === Compiler Cache / Intermediate ===
+*.pjt               # old CCS project files
+*.pdb
+*.ilk
+
+# === Code Generation Tools (CGT) outputs ===
+/lib/               # if building static libs from examples
+/libraries/
+
+# === Misc OS junk ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === C2000 Alternate Build Configurations ===
+/CPU1_RAM/
+/CPU1_FLASH/
+# === C2000 Alternate Build Configurations ===
+/CPU1_RAM/
+/CPU1_FLASH/
+# === C2000 Alternate Build Configurations ===
+/CPU1_RAM/
+/CPU1_FLASH/
+# === C2000 Alternate Build Configurations ===
+/CPU1_RAM/
+/CPU1_FLASH/
+# === C2000 Alternate Build Configurations ===
+/CPU1_RAM/
+/CPU1_FLASH/
+# === C2000 Alternate Build Configurations ===
+/CPU1_RAM/
+/CPU1_FLASH/
+# === C2000 Alternate Build Configurations ===
+/CPU1_RAM/
+/CPU1_FLASH/
+# === C2000 Alternate Build Configurations ===
+/CPU1_RAM/
+/CPU1_FLASH/
+# === C2000 Alternate Build Configurations ===
+/CPU1_RAM/
+/CPU1_FLASH/

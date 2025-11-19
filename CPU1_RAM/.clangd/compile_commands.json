@@ -1,0 +1,27 @@
+[
+   {
+      "directory" : "/home/brandon/workspace_ccstheia/xfs_beacon_rx/CPU1_RAM",
+      "command"   : "clang++ -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx\" -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx/device\" -I\"/home/brandon/ti/C2000Ware_6_00_00_00/driverlib/f2837xd/driverlib/\" -I\"/home/brandon/ti/ccs2030/ccs/tools/compiler/ti-cgt-c2000_22.6.2.LTS/include\" -DDEBUG -DCPU1 -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx/CPU1_RAM/syscfg\"",
+      "file"      : "/home/brandon/workspace_ccstheia/xfs_beacon_rx/device/F2837xD_CodeStartBranch.asm"
+   },
+   {
+      "directory" : "/home/brandon/workspace_ccstheia/xfs_beacon_rx/CPU1_RAM",
+      "command"   : "clang++ -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx\" -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx/device\" -I\"/home/brandon/ti/C2000Ware_6_00_00_00/driverlib/f2837xd/driverlib/\" -I\"/home/brandon/ti/ccs2030/ccs/tools/compiler/ti-cgt-c2000_22.6.2.LTS/include\" -DDEBUG -DCPU1 -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx/CPU1_RAM/syscfg\" -xc",
+      "file"      : "/home/brandon/workspace_ccstheia/xfs_beacon_rx/device/device.c"
+   },
+   {
+      "directory" : "/home/brandon/workspace_ccstheia/xfs_beacon_rx/CPU1_RAM",
+      "command"   : "clang++ -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx\" -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx/device\" -I\"/home/brandon/ti/C2000Ware_6_00_00_00/driverlib/f2837xd/driverlib/\" -I\"/home/brandon/ti/ccs2030/ccs/tools/compiler/ti-cgt-c2000_22.6.2.LTS/include\" -DDEBUG -DCPU1 -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx/CPU1_RAM/syscfg\" -xc",
+      "file"      : "/home/brandon/workspace_ccstheia/xfs_beacon_rx/diagport.c"
+   },
+   {
+      "directory" : "/home/brandon/workspace_ccstheia/xfs_beacon_rx/CPU1_RAM",
+      "command"   : "clang++ -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx\" -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx/device\" -I\"/home/brandon/ti/C2000Ware_6_00_00_00/driverlib/f2837xd/driverlib/\" -I\"/home/brandon/ti/ccs2030/ccs/tools/compiler/ti-cgt-c2000_22.6.2.LTS/include\" -DDEBUG -DCPU1 -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx/CPU1_RAM/syscfg\" -xc",
+      "file"      : "/home/brandon/workspace_ccstheia/xfs_beacon_rx/hal_afe031.c"
+   },
+   {
+      "directory" : "/home/brandon/workspace_ccstheia/xfs_beacon_rx/CPU1_RAM",
+      "command"   : "clang++ -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx\" -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx/device\" -I\"/home/brandon/ti/C2000Ware_6_00_00_00/driverlib/f2837xd/driverlib/\" -I\"/home/brandon/ti/ccs2030/ccs/tools/compiler/ti-cgt-c2000_22.6.2.LTS/include\" -DDEBUG -DCPU1 -I\"/home/brandon/workspace_ccstheia/xfs_beacon_rx/CPU1_RAM/syscfg\" -xc",
+      "file"      : "/home/brandon/workspace_ccstheia/xfs_beacon_rx/main.c"
+   }
+]

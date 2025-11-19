@@ -1,0 +1,208 @@
+/**
+ * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
+ * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
+ * @cliArgs --device "F2837xD" --part "F2837xD_176PTP" --package "F2837xD_176PTP" --context "CPU1" --product "C2000WARE@6.00.00.00"
+ * @v2CliArgs --device "TMS320F28379D" --package "176PTP" --context "CPU1" --product "C2000WARE@6.00.00.00"
+ * @versions {"tool":"1.25.0+4268"}
+ */
+
+/**
+ * Import the modules used in this configuration.
+ */
+const adc            = scripting.addModule("/driverlib/adc.js", {}, false);
+const adc1           = adc.addInstance();
+const device_support = scripting.addModule("/driverlib/device_support.js");
+const epwm           = scripting.addModule("/driverlib/epwm.js", {}, false);
+const epwm1          = epwm.addInstance();
+const epwm2          = epwm.addInstance();
+const epwm3          = epwm.addInstance();
+const epwm4          = epwm.addInstance();
+const gpio           = scripting.addModule("/driverlib/gpio.js", {}, false);
+const gpio1          = gpio.addInstance();
+const gpio2          = gpio.addInstance();
+const gpio3          = gpio.addInstance();
+const gpio4          = gpio.addInstance();
+const gpio5          = gpio.addInstance();
+const gpio6          = gpio.addInstance();
+const gpio7          = gpio.addInstance();
+const gpio8          = gpio.addInstance();
+const gpio9          = gpio.addInstance();
+const gpio10         = gpio.addInstance();
+const gpio11         = gpio.addInstance();
+const gpio12         = gpio.addInstance();
+const gpio13         = gpio.addInstance();
+const sci            = scripting.addModule("/driverlib/sci.js", {}, false);
+const sci1           = sci.addInstance();
+const spi            = scripting.addModule("/driverlib/spi.js", {}, false);
+const spi1           = spi.addInstance();
+
+/**
+ * Write custom configuration values to the imported modules.
+ */
+adc1.$name              = "DAC_ADC";
+adc1.adcClockPrescaler  = "ADC_CLK_DIV_4_0";
+adc1.interruptPulseMode = "ADC_PULSE_END_OF_CONV";
+adc1.enabledSOCs        = ["ADC_SOC_NUMBER0"];
+adc1.soc0Trigger        = "ADC_TRIGGER_EPWM6_SOCA";
+adc1.soc0SampleWindow   = 15;
+adc1.enabledInts        = ["ADC_INT_NUMBER1"];
+adc1.enableInterrupt1   = true;
+
+const multiplier2         = system.clockTree["AUX_IMULT"];
+multiplier2.multiplyValue = 16;
+
+const multiplier4         = system.clockTree["PLL_IMULT"];
+multiplier4.multiplyValue = 16;
+
+const mux8       = system.clockTree["XTAL_OR_X1"];
+mux8.inputSelect = "X1";
+
+const pinFunction1     = system.clockTree["AUXCLK"];
+pinFunction1.XTAL_Freq = 25;
+
+const pinFunction2     = system.clockTree["X1"];
+pinFunction2.XTAL_Freq = 25;
+
+const default_warning = scripting.addModule("/driverlib/default_warning.js", {}, false);
+scripting.suppress("Add the \'Device Support\' module in order to use Clock Tree tool and generate device support files\\. This suggestion can be ignored if not using the Clock Tree tool\\.", default_warning);
+
+device_support.useStandardCodeStartBranch = false;
+
+epwm1.$name                                                    = "DAC_PWM";
+epwm1.epwmTimebase_emulationMode                               = "EPWM_EMULATION_FREE_RUN";
+epwm1.epwmTimebase_hsClockDiv                                  = "EPWM_HSCLOCK_DIVIDER_1";
+epwm1.epwmTimebase_syncOutPulseMode                            = "EPWM_SYNC_OUT_PULSE_DISABLED";
+epwm1.epwmCounterCompare_shadowLoadModeCMPA                    = "EPWM_COMP_LOAD_ON_CNTR_ZERO_PERIOD";
+epwm1.epwmCounterCompare_shadowLoadModeCMPB                    = "EPWM_COMP_LOAD_ON_CNTR_ZERO_PERIOD";
+epwm1.epwmEventTrigger_EPWM_SOC_A_triggerEnable                = true;
+epwm1.epwmEventTrigger_EPWM_SOC_A_triggerEventPrescalar        = "1";
+epwm1.epwmEventTrigger_EPWM_SOC_A_triggerSource                = "EPWM_SOC_TBCTR_U_CMPA";
+epwm1.epwmTimebase_period                                      = 50;
+epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_UP_CMPA = "EPWM_AQ_OUTPUT_TOGGLE";
+epwm1.epwm.$assign                                             = "EPWM1";
+epwm1.epwm.epwm_aPin.$assign                                   = "GPIO0";
+
+epwm2.$name                                = "BIT_PWM";
+epwm2.epwmTimebase_clockDiv                = "EPWM_CLOCK_DIVIDER_4";
+epwm2.epwmTimebase_hsClockDiv              = "EPWM_HSCLOCK_DIVIDER_4";
+epwm2.epwmTimebase_period                  = 16000;
+epwm2.epwmEventTrigger_enableInterrupt     = true;
+epwm2.epwmEventTrigger_interruptSource     = "EPWM_INT_TBCTR_ZERO";
+epwm2.epwmEventTrigger_interruptEventCount = "1";
+epwm2.epwm.$assign                         = "EPWM4";
+
+epwm3.$name                                             = "ADC_PWM";
+epwm3.epwmTimebase_emulationMode                        = "EPWM_EMULATION_FREE_RUN";
+epwm3.epwmTimebase_hsClockDiv                           = "EPWM_HSCLOCK_DIVIDER_1";
+epwm3.epwmTimebase_period                               = 333;
+epwm3.epwmTimebase_syncOutPulseMode                     = "EPWM_SYNC_OUT_PULSE_DISABLED";
+epwm3.epwmCounterCompare_shadowLoadModeCMPA             = "EPWM_COMP_LOAD_ON_CNTR_ZERO_PERIOD";
+epwm3.epwmCounterCompare_shadowLoadModeCMPB             = "EPWM_COMP_LOAD_ON_CNTR_ZERO_PERIOD";
+epwm3.epwmEventTrigger_EPWM_SOC_A_triggerEnable         = true;
+epwm3.epwmEventTrigger_EPWM_SOC_A_triggerEventPrescalar = "1";
+epwm3.epwmEventTrigger_EPWM_SOC_A_triggerSource         = "EPWM_SOC_TBCTR_U_CMPA";
+epwm3.epwm.$assign                                      = "EPWM6";
+
+epwm4.$name                                = "DEMOD_PWM";
+epwm4.epwmTimebase_emulationMode           = "EPWM_EMULATION_FREE_RUN";
+epwm4.epwmTimebase_syncOutPulseMode        = "EPWM_SYNC_OUT_PULSE_DISABLED";
+epwm4.epwmTimebase_clockDiv                = "EPWM_CLOCK_DIVIDER_4";
+epwm4.epwmEventTrigger_enableInterrupt     = true;
+epwm4.epwmEventTrigger_interruptSource     = "EPWM_INT_TBCTR_ZERO";
+epwm4.epwmEventTrigger_interruptEventCount = "1";
+epwm4.epwmTimebase_period                  = 10667;
+epwm4.epwmTimebase_hsClockDiv              = "EPWM_HSCLOCK_DIVIDER_4";
+epwm4.epwm.$assign                         = "EPWM7";
+
+gpio1.$name             = "HLTH_LED";
+gpio1.direction         = "GPIO_DIR_MODE_OUT";
+gpio1.writeInitialValue = true;
+gpio1.gpioPin.$assign   = "GPIO29";
+
+gpio2.$name             = "SONALERT";
+gpio2.direction         = "GPIO_DIR_MODE_OUT";
+gpio2.writeInitialValue = true;
+gpio2.gpioPin.$assign   = "GPIO30";
+
+gpio3.$name             = "SIDE_BLINK";
+gpio3.direction         = "GPIO_DIR_MODE_OUT";
+gpio3.writeInitialValue = true;
+gpio3.gpioPin.$assign   = "GPIO14";
+
+gpio4.$name             = "DEBUG_TP16";
+gpio4.direction         = "GPIO_DIR_MODE_OUT";
+gpio4.writeInitialValue = true;
+gpio4.gpioPin.$assign   = "GPIO24";
+
+gpio5.$name             = "DEBUG_TP19";
+gpio5.direction         = "GPIO_DIR_MODE_OUT";
+gpio5.writeInitialValue = true;
+gpio5.gpioPin.$assign   = "GPIO25";
+
+gpio6.$name             = "DEBUG_TP21";
+gpio6.writeInitialValue = true;
+gpio6.direction         = "GPIO_DIR_MODE_OUT";
+gpio6.gpioPin.$assign   = "GPIO26";
+
+gpio7.$name             = "DEBUG_TP23";
+gpio7.direction         = "GPIO_DIR_MODE_OUT";
+gpio7.writeInitialValue = true;
+gpio7.gpioPin.$assign   = "GPIO27";
+
+gpio8.$name           = "BOARD_ID0";
+gpio8.gpioPin.$assign = "GPIO60";
+
+gpio9.$name           = "BOARD_ID1";
+gpio9.gpioPin.$assign = "GPIO61";
+
+gpio10.$name           = "BOARD_ID2";
+gpio10.gpioPin.$assign = "GPIO62";
+
+gpio11.$name             = "PLC_DAC_MODE_SEL";
+gpio11.direction         = "GPIO_DIR_MODE_OUT";
+gpio11.writeInitialValue = true;
+gpio11.gpioPin.$assign   = "GPIO2";
+
+gpio12.$name             = "PLC_SYSTEM_SHTDN";
+gpio12.direction         = "GPIO_DIR_MODE_OUT";
+gpio12.writeInitialValue = true;
+gpio12.gpioPin.$assign   = "GPIO3";
+
+gpio13.$name           = "PLC_INTERRUPT_FLT";
+gpio13.gpioPin.$assign = "GPIO4";
+
+sci1.$name                 = "DEBUG_SCI";
+sci1.sci.scirxdPin.$assign = "GPIO9";
+sci1.sci.scitxdPin.$assign = "GPIO8";
+sci1.rxQual.$name          = "myGPIOQUAL0";
+sci1.txQual.$name          = "myGPIOQUAL1";
+
+spi1.$name                   = "DAC_SPI";
+spi1.mode                    = "SPI_MODE_CONTROLLER";
+spi1.emulationMode           = "SPI_EMULATION_FREE_RUN";
+spi1.useInterrupts           = false;
+spi1.useFifo                 = false;
+spi1.bitRate                 = 20000000;
+spi1.spi.$assign             = "SPIA";
+spi1.spi.spi_picoPin.$assign = "GPIO16";
+spi1.spi.spi_pociPin.$assign = "GPIO17";
+spi1.spi.spi_clkPin.$assign  = "GPIO18";
+spi1.spi.spi_ptePin.$assign  = "GPIO19";
+spi1.picoQual.$name          = "myGPIOQUAL2";
+spi1.pociQual.$name          = "myGPIOQUAL3";
+spi1.clkQual.$name           = "myGPIOQUAL4";
+spi1.pteQual.$name           = "myGPIOQUAL5";
+
+/**
+ * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
+ * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
+ * re-solve from scratch.
+ */
+epwm1.epwm.epwm_bPin.$suggestSolution = "GPIO1";
+epwm2.epwm.epwm_aPin.$suggestSolution = "GPIO6";
+epwm2.epwm.epwm_bPin.$suggestSolution = "GPIO7";
+epwm3.epwm.epwm_aPin.$suggestSolution = "GPIO10";
+epwm3.epwm.epwm_bPin.$suggestSolution = "GPIO11";
+epwm4.epwm.epwm_aPin.$suggestSolution = "GPIO12";
+epwm4.epwm.epwm_bPin.$suggestSolution = "GPIO13";
+sci1.sci.$suggestSolution             = "SCIA";
