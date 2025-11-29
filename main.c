@@ -12,6 +12,7 @@
 // Included Files
 //
 #include <stddef.h>
+#include <ctype.h>
 
 #include "driverlib.h"
 #include "board.h"
@@ -133,6 +134,8 @@ static volatile int16_t rx_bit_buffer[100] = {0};
 
 static volatile uint16_t bit_index = 0;
 
+static void print_rx_bits_as_string(void);
+
 //
 // Main
 //
@@ -251,6 +254,8 @@ void main(void)
     // toggles to complete a full cycle, the SOC A event frequency is twice 
     // the PWM frequency.
 
+    //SCI_writeCharArray(DEBUG_SCI_BASE, "Hello\r\n", 7);
+
     while (true)
     {
         if (current_bit != last_bit) {
@@ -278,16 +283,12 @@ void main(void)
         }
 
         if ((bit_index == sizeof(rx_bit_buffer)/sizeof(rx_bit_buffer[0])) && ! has_printed) {
-            for (size_t i = 0; i < sizeof(rx_bit_buffer)/sizeof(rx_bit_buffer[0]); i++) {
-                char msg[17];
-                int len = snprintf(msg, sizeof(msg), "Bit %03u: %d\r\n", (unsigned int)i, rx_bit_buffer[i]);
-                SCI_writeCharArray(DEBUG_SCI_BASE, (uint16_t *)msg, len);
-            }
+            print_rx_bits_as_string();
             has_printed = true;
         }
 
         // write out debug message
-        //SCI_writeCharArray(DEBUG_SCI_BASE, (uint16_t *)msg, 17);
+        //SCI_writeCharArray(DEBUG_SCI_BASE, "Hello\r\n", 7);
         //DIAGPORT_service();
 
         //SPI_writeDataBlockingNonFIFO(DAC_SPI_BASE, (0x200 << 6)/*tx_data_toggle ? (0x200 << 6) : (0x100 << 6)*/);
@@ -501,4 +502,40 @@ void nco_reset_dma_buffers(void)
     nco_fill_dma_block(&dac_buffer_b[0], sizeof(dac_buffer_b)/sizeof(dac_buffer_b[0]));
 
     dac_buffer_select = 1;
+}
+
+// new helper: pack bits (rx_bit_buffer) MSB-first into bytes and send as a string.
+// non-printable bytes are replaced with '.'
+void print_rx_bits_as_string(void)
+{
+    size_t max_bits  = sizeof(rx_bit_buffer) / sizeof(rx_bit_buffer[0]);
+    size_t max_bytes = max_bits / 8;
+    char out[256] = {0};//char out[max_bytes + 1];
+
+    size_t num_bits = bit_index;
+    size_t num_bytes = num_bits / 8; // drop trailing bits if not a full byte
+
+    if (num_bytes == 0) {
+        // nothing to print
+        return;
+    }
+
+    for (size_t i = 0; i < num_bytes; ++i) {
+        uint8_t byte = 0;
+        // pack 8 bits MSB-first: first collected bit -> bit7
+        for (int b = 0; b < 8; ++b) {
+            size_t idx = i * 8 + b;
+            int16_t v = rx_bit_buffer[idx];
+            uint8_t bit = (v == 1) ? 1u : 0u; // treat -1 or 0 as 0
+            byte = (uint8_t)((byte << 1) | bit);
+        }
+        out[i] = isprint(byte) ? (char)byte : '.';
+    }
+    out[num_bytes] = '\0';
+
+    // send the string (no null terminator required by SCI, length passed explicitly)
+    SCI_writeCharArray(DEBUG_SCI_BASE, (uint16_t *)out, (int)num_bytes);
+    // send CRLF
+    const char crlf[] = "\r\n";
+    SCI_writeCharArray(DEBUG_SCI_BASE, (uint16_t *)crlf, 2);
 }
