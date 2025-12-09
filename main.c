@@ -385,39 +385,40 @@ void main_loop(void)
 
             case RX_STATE_WAITING_FOR_GAP:
             {
-                int16_t latest_bit = 0;
+                int16_t latest_bit = BIT_IDLE;
 
                 // wait for gap in transmission
                 while (spsc_dequeue(&bit_queue, &latest_bit)) {
-                    
-                    // idle (TODO: handle 'making decision' bit)
-                    if ((latest_bit != 1) && (latest_bit != -1)) {
-                        gap_counter++;
-                        if (gap_counter >= GAP_DETECTION_THRESHOLD) {
-                            rx_state = RX_STATE_WAITING_FOR_MSG_START;
-                            gap_counter = 0;
-                            break;
-                        }
-                    } else {
-                        gap_counter = 0; // idle bits must be consecutive
-                    } 
-                }   
+
+                    if (latest_bit != BIT_DECIDING) {
+                        if ((latest_bit != BIT_MARK) && (latest_bit != BIT_SPACE)) {
+                            gap_counter++;
+                            if (gap_counter >= GAP_DETECTION_THRESHOLD) {
+                                rx_state = RX_STATE_WAITING_FOR_MSG_START;
+                                gap_counter = 0;
+                                break;
+                            }
+                        } else {
+                            gap_counter = 0; // idle bits must be consecutive
+                        } 
+                    }   
+                }
 
                 break;
             }
 
             case RX_STATE_WAITING_FOR_MSG_START:
             {
-                int16_t latest_bit = 0;
+                int16_t latest_bit = BIT_IDLE;
 
                 // wait for start of message
                 while (spsc_dequeue(&bit_queue, &latest_bit)) {
-                    if ((latest_bit == 1) || (latest_bit == -1)) {
+                    if ((latest_bit == BIT_MARK) || (latest_bit == BIT_SPACE)) {
                         // initialize receiver buffer
                         for (int i = 0; i < (int)sizeof(rx_msg_buf); ++i) rx_msg_buf[i] = 0;
                         rx_msg_byte_index = 0;
                         // store first bit as LSB value 0x01 for mark(1) or 0x00 for space(0)
-                        rx_msg_buf[0] = (latest_bit == 1) ? 0x01 : 0x00;
+                        rx_msg_buf[0] = (latest_bit == BIT_MARK) ? 0x01 : 0x00;
                         rx_msg_bit_pos    = 1; // one bit already stored
                         accumulating_bits = true;
                         message_started   = true;
@@ -434,14 +435,14 @@ void main_loop(void)
 
             case RX_STATE_RECEIVING_MESSAGE:
             {
-                int16_t latest_bit = 0;
+                int16_t latest_bit = BIT_IDLE;
 
                 // receive message bits and pack into rx_msg_buf MSB-first
                 while (spsc_dequeue(&bit_queue, &latest_bit)) {
 
                     // for now, ignore any bit that is not +1 or -1
-                    if ((latest_bit == 1) || (latest_bit == -1)) {
-                        uint8_t bit = (latest_bit == 1) ? 1u : 0u; // treat -1 or 0 as 0
+                    if ((latest_bit == BIT_MARK) || (latest_bit == BIT_SPACE)) {
+                        uint8_t bit = (latest_bit == BIT_MARK) ? 1u : 0u; // treat -1 or 0 as 0
 
                         // guard against overflow
                         if (rx_msg_byte_index >= sizeof(rx_msg_buf)) {

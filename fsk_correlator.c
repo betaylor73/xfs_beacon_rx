@@ -142,36 +142,6 @@ void fsk_corr_init(FskCorrState* s)
     s->spaceCosineSum += adc_value * cs;
 }
 
-// int16_t fsk_corr_detect(FskCorrState* s, float detection_threshold)
-// {
-//     float temp = (isr_freq) / (bit_freq * 2.0f);
-//     temp = temp * temp;
-
-//     float markSumSquared = (s->markCosineSum * s->markCosineSum + s->markSineSum * s->markSineSum) / temp;
-//     float spaceSumSquared = (s->spaceCosineSum * s->spaceCosineSum + s->spaceSineSum * s->spaceSineSum) / temp;
-
-//     int16_t bit_detected = 0;
-
-//     if(markSumSquared > detection_threshold
-//             && spaceSumSquared < detection_threshold)
-//     {
-//         bit_detected = 1;
-//     }
-//     else if (spaceSumSquared > detection_threshold
-//             && markSumSquared < detection_threshold)
-//     {
-//         bit_detected = -1;
-//     }
-
-//     // Reset sums for next detection
-//     s->markSineSum    = 0.0;
-//     s->markCosineSum  = 0.0;
-//     s->spaceSineSum   = 0.0;
-//     s->spaceCosineSum = 0.0;
-
-//     return bit_detected;
-// }
-
 int16_t fsk_corr_detect(FskCorrState* s, float detection_threshold)
 {
     float temp = (isr_freq) / (bit_freq * 2.0f);
@@ -180,7 +150,7 @@ int16_t fsk_corr_detect(FskCorrState* s, float detection_threshold)
     float markSumSquared = (s->markCosineSum * s->markCosineSum + s->markSineSum * s->markSineSum) / temp;
     float spaceSumSquared = (s->spaceCosineSum * s->spaceCosineSum + s->spaceSineSum * s->spaceSineSum) / temp;
 
-    int16_t bit_detected = 0;
+    int16_t bit_detected = BIT_IDLE;
 
     if ((markSumSquared > detection_threshold) || (spaceSumSquared > detection_threshold)) {
         if (markSumSquared > detection_threshold) {
@@ -199,11 +169,11 @@ int16_t fsk_corr_detect(FskCorrState* s, float detection_threshold)
 
     if (bit_sample_counter > 2) {
         if ((mark_counter > space_counter) && (mark_counter > 1)) {
-            bit_detected = 1;
+            bit_detected = BIT_MARK;
         } else if ((space_counter > mark_counter) && (space_counter > 1)) {
-            bit_detected = -1;
+            bit_detected = BIT_SPACE;
         } else {
-            bit_detected = 0;
+            bit_detected = BIT_IDLE;
         }
 
         // Reset counters for next detection
@@ -211,6 +181,8 @@ int16_t fsk_corr_detect(FskCorrState* s, float detection_threshold)
         space_counter = 0;
         zero_counter = 0;
         bit_sample_counter = 0;
+    } else if (bit_sample_counter > 0) {
+        bit_detected = BIT_DECIDING;      
     }
 
     // Reset sums for next detection

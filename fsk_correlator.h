@@ -3,6 +3,12 @@
 
 #include <stdint.h>
 
+#define BIT_MARK     (1)
+#define BIT_SPACE    (-1)
+#define BIT_IDLE     (0)
+#define BIT_DECIDING (2)
+
+
 typedef struct {
     // NCO state
     int32_t  markPointer, spacePointer;    // Phase accumulator for MARK and SPACE (Q31)
